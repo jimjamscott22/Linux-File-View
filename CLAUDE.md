@@ -32,10 +32,10 @@ Run `npm run build` to catch TS errors before considering frontend work done.
 - **The frontend never touches the filesystem.** Every FS interaction is a Tauri
   `#[command]`. No `fs` access from JS, no shelling out from the frontend.
 - **Commands are thin.** Command functions validate/canonicalize input and delegate
-  to module logic (`read`, `ops`, `open`, `watch`). Keep business logic out of
-  `main.rs`.
+  to module logic (`read`, `ops`, `open`, `watch`, `size`). Keep business logic
+  out of `main.rs`.
 - **One module per concern** — follow the layout in IMPLEMENTATION_PLAN.md. Don't
-  collapse `read`/`ops`/`watch` into one file.
+  collapse `read`/`ops`/`watch`/`size` into one file.
 - **Types are the contract.** `DirEntry`, `EntryInfo`, and `AppError` shapes must
   match SPEC.md exactly; if you change one, update SPEC.md in the same change.
 
