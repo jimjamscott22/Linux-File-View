@@ -1,7 +1,7 @@
 # CLAUDE.md — Terminal File Manager (`tfm`)
 
-Guidance for Claude Code working in this repo. Read alongside `SPEC.md` and
-`IMPLEMENTATION_PLAN.md`. When in doubt, the SPEC is the source of truth for the
+Guidance for Claude Code working in this repo. Read alongside `docs/SPEC.md` and
+`docs/IMPLEMENTATION_PLAN.md`. When in doubt, the SPEC is the source of truth for the
 contract; this file is the source of truth for *how* to build it.
 
 ## Project summary
@@ -32,12 +32,12 @@ Run `npm run build` to catch TS errors before considering frontend work done.
 - **The frontend never touches the filesystem.** Every FS interaction is a Tauri
   `#[command]`. No `fs` access from JS, no shelling out from the frontend.
 - **Commands are thin.** Command functions validate/canonicalize input and delegate
-  to module logic (`read`, `ops`, `open`, `watch`). Keep business logic out of
-  `main.rs`.
-- **One module per concern** — follow the layout in IMPLEMENTATION_PLAN.md. Don't
-  collapse `read`/`ops`/`watch` into one file.
+  to module logic (`read`, `ops`, `open`, `watch`, `size`). Keep business logic
+  out of `main.rs`.
+- **One module per concern** — follow the layout in docs/IMPLEMENTATION_PLAN.md. Don't
+  collapse `read`/`ops`/`watch`/`size` into one file.
 - **Types are the contract.** `DirEntry`, `EntryInfo`, and `AppError` shapes must
-  match SPEC.md exactly; if you change one, update SPEC.md in the same change.
+  match docs/SPEC.md exactly; if you change one, update docs/SPEC.md in the same change.
 
 ## Rust conventions
 - **No `unwrap()` / `expect()` / `panic!` in command paths or anything reachable
@@ -85,13 +85,13 @@ on the home lab (the Pi has WireGuard exposure), so treat safety as a feature:
 - Keep the edge-case list exercised: zero-byte files, very long names, broken
   symlinks, permission-denied dirs, files that vanish mid-operation, names with
   spaces/unicode.
-- Each phase has an exit check in IMPLEMENTATION_PLAN.md — don't mark a phase done
+- Each phase has an exit check in docs/IMPLEMENTATION_PLAN.md — don't mark a phase done
   until its exit check passes on a real run, not just a compile.
 
 ## Workflow notes
-- Build in the phase order from IMPLEMENTATION_PLAN.md; keep the app runnable at the
+- Build in the phase order from docs/IMPLEMENTATION_PLAN.md; keep the app runnable at the
   end of every phase.
-- When you change the command surface, update SPEC.md's API table and the `api.ts`
+- When you change the command surface, update docs/SPEC.md's API table and the `api.ts`
   types together — they must not drift.
 - Small, reviewable commits per logical unit (one command + its UI, one module).
 - Don't add scope from the Non-Goals list (dual-pane, thumbnails, archives, network
