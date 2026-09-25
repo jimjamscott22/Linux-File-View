@@ -15,7 +15,12 @@ mod watch;
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![commands::ping,])
+        .invoke_handler(tauri::generate_handler![
+            commands::resolve_dir,
+            commands::list_dir,
+            commands::home_dir,
+            commands::parent_dir,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -2,11 +2,11 @@
 
 A local-first, keyboard-centric Linux file manager. A **Rust (Tauri v2)** backend owns all filesystem operations and OS integration safely and directly, while a **React + TypeScript + Vite + Tailwind** frontend renders a fast, dark, terminal-aesthetic UI inside the webview.
 
-**Project status: Phase 0 scaffold.** The app currently displays a Rust `ping` result. File browsing and the features listed below are planned but not yet implemented. Existing `.deb` and AppImage bundles contain this scaffold.
+**Project status: Phase 1 browsing.** The app now lists directories and supports keyboard navigation, hidden-file toggling, sorting, and refresh. Metadata details, file operations, watching, and the other features listed below are still planned. Existing `.deb` and AppImage bundles predate Phase 1 and contain the older scaffold.
 
 Built specifically for Linux x86_64, `tfm` is intended to provide keyboard-first navigation with the safety and capabilities of a modern file manager.
 
-## Planned features
+## Product roadmap
 
 - **Keyboard-driven:** Navigate, browse, and perform file operations entirely via the keyboard without taking your hands off the home row.
 - **Terminal aesthetic:** Monospace layout with fixed-width `ls -l` styling, custom mode string rendering, and no rounded "web app" distractions.

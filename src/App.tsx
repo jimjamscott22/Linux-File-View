@@ -1,21 +1,19 @@
-import { useState, useEffect } from "react";
-import { ping } from "./api";
+import { useEffect } from "react";
+import { EntryList } from "./components/EntryList";
+import { PathBar } from "./components/PathBar";
+import { StatusBar } from "./components/StatusBar";
+import { useKeyboard } from "./hooks/useKeyboard";
+import { useFileStore } from "./store";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-
-  useEffect(() => {
-    ping().then(setGreetMsg).catch(console.error);
-  }, []);
-
-  return (
-    <main className="min-h-screen w-screen bg-gray-900 text-gray-100 flex items-center justify-center font-mono">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Terminal File Manager</h1>
-        <p>Ping from Rust: <span className="text-green-400 font-bold">{greetMsg}</span></p>
-      </div>
-    </main>
-  );
+  const { cwd, entries, cursor, listOptions, loading, error, initialize, enter, selectIndex } = useFileStore();
+  useKeyboard();
+  useEffect(() => { void initialize(); }, [initialize]);
+  return <main className="h-screen w-screen bg-slate-900 text-slate-100 font-mono flex flex-col overflow-hidden">
+    <PathBar path={cwd} loading={loading} />
+    <EntryList entries={entries} cursor={cursor} onSelect={selectIndex} onOpen={() => { void enter(); }} />
+    <StatusBar count={entries.length} cursor={cursor} options={listOptions} error={error} />
+  </main>;
 }
 
 export default App;

@@ -194,6 +194,7 @@ wire.
 
 | Command | Args | Returns | Notable errors |
 |---|---|---|---|
+| `resolve_dir` | `path: String` | `String` (canonical directory path) | `NotFound`, `NotADirectory`, `InvalidPath` |
 | `list_dir` | `path: String, options: ListOptions` | `Vec<DirEntry>` | `NotFound`, `PermissionDenied`, `NotADirectory` |
 | `entry_info` | `path: String` | `EntryInfo` | `NotFound`, `PermissionDenied` |
 | `directory_size` | `path: String` | `DirSize` | `NotFound`, `PermissionDenied`, `NotADirectory`, `Cancelled` |
@@ -281,6 +282,7 @@ data.
 
 | Operation | Behavior |
 |---|---|
+| `resolve_dir` | `path: String` | `String` (canonical directory path) | `NotFound`, `NotADirectory`, `InvalidPath` |
 | `list_dir` | `lstat` the entry. One `stat` of the target to fill `symlinkTargetKind` / `isBrokenSymlink`. Never recurses into the target. |
 | `entry_info` | Reports both raw link text and the canonicalized target. Metadata (mode, owner, times) is the **link's own**, from `lstat`. |
 | Navigate into | Following a symlink to a directory is allowed — it is an explicit user action. The resolved, canonical path becomes the current directory. |
