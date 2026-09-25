@@ -46,6 +46,35 @@ Built specifically for Linux x86_64, `tfm` provides lightning-fast keyboard-firs
 | `F5` / `Ctrl-r` | Refresh list |
 | `?` | Toggle key help overlay |
 
+## Install Bundled Releases
+
+Use a downloaded Linux x86_64 bundle or build one with `npm run tauri build`. Local builds are in `src-tauri/target/release/bundle/deb/` and `src-tauri/target/release/bundle/appimage/`. Run the commands below from the directory containing the bundle.
+
+### Debian / Ubuntu (`.deb`)
+
+```bash
+sudo apt install ./tfm_*.deb
+```
+
+Launch `tfm` from your application menu or run `tfm` in a terminal. To uninstall the package later, run `sudo apt remove tfm`.
+
+### Other Linux distributions (AppImage)
+
+```bash
+chmod +x ./tfm_*.AppImage
+./tfm_*.AppImage
+```
+
+The AppImage runs without installation. You can keep it wherever you prefer, such as `~/.local/bin`, and remove it by deleting the file. If you have downloaded more than one version, replace the `*` in these commands with the exact filename you want to use.
+
+### Launching from a Snap-packaged editor
+
+If `tfm` fails with a `libpthread.so.0` / `GLIBC_PRIVATE` symbol error when run from an editor terminal, the editor's `GTK_PATH` may be loading GTK modules from its Snap runtime. Launch the installed app without that path:
+
+```bash
+env -u GTK_PATH tfm
+```
+
 ## Development Setup
 
 ### Prerequisites
