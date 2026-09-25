@@ -2,9 +2,11 @@
 
 A local-first, keyboard-centric Linux file manager. A **Rust (Tauri v2)** backend owns all filesystem operations and OS integration safely and directly, while a **React + TypeScript + Vite + Tailwind** frontend renders a fast, dark, terminal-aesthetic UI inside the webview.
 
-Built specifically for Linux x86_64, `tfm` provides lightning-fast keyboard-first navigation with the safety and capabilities of a modern file manager.
+**Project status: Phase 0 scaffold.** The app currently displays a Rust `ping` result. File browsing and the features listed below are planned but not yet implemented. Existing `.deb` and AppImage bundles contain this scaffold.
 
-## Features
+Built specifically for Linux x86_64, `tfm` is intended to provide keyboard-first navigation with the safety and capabilities of a modern file manager.
+
+## Planned features
 
 - **Keyboard-driven:** Navigate, browse, and perform file operations entirely via the keyboard without taking your hands off the home row.
 - **Terminal aesthetic:** Monospace layout with fixed-width `ls -l` styling, custom mode string rendering, and no rounded "web app" distractions.
@@ -48,7 +50,7 @@ Built specifically for Linux x86_64, `tfm` provides lightning-fast keyboard-firs
 
 ## Install Bundled Releases
 
-Use a downloaded Linux x86_64 bundle or build one with `npm run tauri build`. Local builds are in `src-tauri/target/release/bundle/deb/` and `src-tauri/target/release/bundle/appimage/`. Run the commands below from the directory containing the bundle.
+Once a functional release is available, use a downloaded Linux x86_64 bundle or build one with `npm run tauri build`. Local builds are in `src-tauri/target/release/bundle/deb/` and `src-tauri/target/release/bundle/appimage/`. Run the commands below from the directory containing the bundle.
 
 ### Debian / Ubuntu (`.deb`)
 

@@ -81,6 +81,9 @@ impl From<io::Error> for AppError {
             io::ErrorKind::NotFound => ErrorKind::NotFound,
             io::ErrorKind::PermissionDenied => ErrorKind::PermissionDenied,
             io::ErrorKind::AlreadyExists => ErrorKind::AlreadyExists,
+            io::ErrorKind::NotADirectory => ErrorKind::NotADirectory,
+            io::ErrorKind::IsADirectory => ErrorKind::IsADirectory,
+            io::ErrorKind::DirectoryNotEmpty => ErrorKind::DirectoryNotEmpty,
             _ => {
                 if let Some(raw) = error.raw_os_error() {
                     match raw {
@@ -97,5 +100,67 @@ impl From<io::Error> for AppError {
         };
 
         Self { kind, message }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::mem::discriminant;
+
+    #[test]
+    fn maps_io_errors_to_contract_kinds() {
+        let cases = [
+            (
+                io::Error::from(io::ErrorKind::NotFound),
+                ErrorKind::NotFound,
+            ),
+            (
+                io::Error::from(io::ErrorKind::PermissionDenied),
+                ErrorKind::PermissionDenied,
+            ),
+            (
+                io::Error::from(io::ErrorKind::AlreadyExists),
+                ErrorKind::AlreadyExists,
+            ),
+            (
+                io::Error::from(io::ErrorKind::NotADirectory),
+                ErrorKind::NotADirectory,
+            ),
+            (
+                io::Error::from(io::ErrorKind::IsADirectory),
+                ErrorKind::IsADirectory,
+            ),
+            (
+                io::Error::from(io::ErrorKind::DirectoryNotEmpty),
+                ErrorKind::DirectoryNotEmpty,
+            ),
+            (io::Error::from_raw_os_error(18), ErrorKind::CrossDevice),
+            (io::Error::from_raw_os_error(20), ErrorKind::NotADirectory),
+            (io::Error::from_raw_os_error(21), ErrorKind::IsADirectory),
+            (
+                io::Error::from_raw_os_error(39),
+                ErrorKind::DirectoryNotEmpty,
+            ),
+            (io::Error::from_raw_os_error(12345), ErrorKind::Io),
+        ];
+
+        for (source, expected) in cases {
+            let error = AppError::from(source);
+            assert_eq!(discriminant(&error.kind), discriminant(&expected));
+        }
+    }
+
+    #[test]
+    fn serializes_error_as_kind_and_message() {
+        let error = AppError::new(ErrorKind::InvalidPath, "Invalid path: /tmp/missing");
+        let value = serde_json::to_value(error).expect("serialize AppError");
+        assert_eq!(
+            value,
+            serde_json::json!({
+                "kind": "InvalidPath",
+                "message": "Invalid path: /tmp/missing"
+            })
+        );
     }
 }
